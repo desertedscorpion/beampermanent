@@ -1,27 +1,42 @@
 #!/bin/bash
 
-WORK_DIR=$(mktemp -d) &&
-    REPO_DIR=$(mktemp -d) &&
+REPO_DIR=$(mktemp -d) &&
     git -C ${REPO_DIR} clone git@github.com:desertedscorpion/hollowmoon &&
     function build_it(){
-	ORGANIZATION=${1} &&
-	    REPOSITORY=${2} &&
-	    VERSION=${3} &&
-	    RELEASE=${4} &&
+	RELEASE_ORGANIZATION=${1} &&
+	    RELEASE_REPOSITORY=${2} &&
+	    VERSION_ORGANIZATION=${3} &&
+	    VERSION_REPOSITORY=${4} &&
 	    NAME=${5} &&
-	    git -C ${WORK_DIR} clone git@github.com:${ORGANIZATION}/${REPOSITORY}.git &&
-	    git -C ${WORK_DIR}/${REPOSITORY} checkout tags/${RELEASE} &&
-	    echo make --directory ${WORK_DIR}/${REPOSITORY} rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm VERSION=${VERSION} &&
-	    make --directory ${WORK_DIR}/${REPOSITORY} rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm VERSION=${VERSION} &&
-	    cp ${WORK_DIR}/${REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ${REPO_DIR}/hollowmoon &&
-	    git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
-	    git -C ${REPO_DIR}/hollowmoon commit -m "Added ${NAME}-${VERSION}-${RELEASE}" &&
+	    RELEASE_DIR=$(mktemp -d) &&
+	    VERSION_DIR=$(mktemp -d) &&
+	    git -C ${RELEASE_DIR} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
+	    git -C ${VERSION_DIR} clone git@github.com:${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}.git &&
+	    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} tag | while read RELEASE
+	    do
+		git -C ${VERSION_DIR}/${VERSION_REPOSITORY} tag | while read VERSION
+		do
+		    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} checkout tags/${RELEASE} &&
+			(
+			    (
+				make --directory ${RELEASE_DIR}/${RELEASE_REPOSITORY} rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm VERSION=${VERSION} &&
+				    cp ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ${REPO_DIR}/hollowmoon &&
+				    git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
+				    true
+			    ) || true
+			) &&
+			true
+		done &&
+		    true
+	    done &&
 	    true
     } &&
-    build_it desertedscorpion navyavenue 0.0.1 0.0.4 luckygamma &&
+    build_it desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
+    build_it desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
     cd ${REPO_DIR}/hollowmoon &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
     git -C ${REPO_DIR}/hollowmoon add repodata &&
+    git -C ${REPO_DIR}/hollowmoon commit -am "beampermanent" &&
     git -C ${REPO_DIR}/hollowmoon push origin master &&
     true
     
