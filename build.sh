@@ -1,6 +1,7 @@
 #!/bin/bash
 
-REPO_DIR=build/repo &&
+WORK_DIR=$(dirname ${0}) &&
+    REPO_DIR=${WORK_DIR}/build/repo &&
     mkdir --parents ${REPO_DIR} &&
     if [[ ! -d ${REPO_DIR}/hollowmoon ]]
     then
@@ -13,9 +14,9 @@ REPO_DIR=build/repo &&
 	    VERSION_ORGANIZATION=${3} &&
 	    VERSION_REPOSITORY=${4} &&
 	    NAME=${5} &&
-	    RELEASE_DIR=build/release &&
+	    RELEASE_DIR=${WORK_DIR}/build/release &&
 	    mkdir --parents ${RELEASE_DIR} &&
-	    VERSION_DIR=build/version &&
+	    VERSION_DIR=${WORK_DIR}/build/version &&
 	    mkdir --parents ${VERSION_DIR} &&
 	    if [[ ! -d ${RELEASE_DIR}/${RELEASE_REPOSITORY} ]]
 	    then
