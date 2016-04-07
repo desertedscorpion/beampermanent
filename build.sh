@@ -62,6 +62,7 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
     } &&
     build_it desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
     build_it desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
+    build_it desertedscorpion bigdrill desertedscorpion lost-locomotive jenkins-client-service &&
     build_it desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
     cd ${REPO_DIR}/hollowmoon &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
