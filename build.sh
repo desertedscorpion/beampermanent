@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORK_DIR=$(readlink -f $(dirname ${0})) &&
+WORK_DIR=$(dirname ${0}) &&
     REPO_DIR=${WORK_DIR}/build/repo &&
     mkdir --parents ${REPO_DIR} &&
     if [[ ! -d ${REPO_DIR}/hollowmoon ]]
@@ -51,6 +51,10 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 				    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} checkout tags/${RELEASE} &&
 					(
 					    (
+						rm --recursive --force ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION} ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.spec &&
+						make ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.spec RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} RELEASE=${RELEASE} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} VERSION=${VERSION} NAME=${NAME} &&
+						make ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.tar.gz RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} RELEASE=${RELEASE} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} VERSION=${VERSION} NAME=${NAME} &&
+						make ${RELEASE_DIR}/${RELEASE_REPOSITORY}/buildsrpm/${NAME}-${VERSION}-${RELEASE}.src.rpm RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} RELEASE=${RELEASE} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} VERSION=${VERSION} NAME=${NAME} &&
 						make ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} RELEASE=${RELEASE} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} VERSION=${VERSION} NAME=${NAME} &&
 						    cp ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ${REPO_DIR}/hollowmoon &&
 						    git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
@@ -74,7 +78,6 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
     build_it desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
     build_it desertedscorpion bigdrill desertedscorpion lostlocomotive jenkins-client-service &&
     build_it desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
-    cd ${REPO_DIR}/hollowmoon &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
     git -C ${REPO_DIR}/hollowmoon add repodata &&
     git -C ${REPO_DIR}/hollowmoon commit -am "beampermanent" &&
