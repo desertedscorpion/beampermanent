@@ -18,5 +18,5 @@ build/release/${RELEASE_REPOSITORY}/buildsrpm/${NAME}-${VERSION}-${RELEASE}.src.
 	mock --buildsrpm --spec build/release/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.spec --sources build/release/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.tar.gz --resultdir build/release/${RELEASE_REPOSITORY}/buildsrpm
 
 build/release/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm : build/release/${RELEASE_REPOSITORY}/buildsrpm/${NAME}-${VERSION}-${RELEASE}.src.rpm
-	mkdir --parents build/release/${RELEASE_REPOSITORY}rebuild
+	mkdir --parents build/release/${RELEASE_REPOSITORY}/rebuild
 	mock --rebuild build/release/${RELEASE_REPOSITORY}/buildsrpm/${NAME}-${VERSION}-${RELEASE}.src.rpm --resultdir build/release/${RELEASE_REPOSITORY}/rebuild
