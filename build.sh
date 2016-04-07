@@ -8,6 +8,7 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 	git -C ${REPO_DIR} clone git@github.com:desertedscorpion/hollowmoon &&
 	    true
     fi &&
+    git -C ${REPO_DIR}/hollowmoon pull &&
     function build_it(){
 	RELEASE_ORGANIZATION=${1} &&
 	    RELEASE_REPOSITORY=${2} &&
@@ -36,9 +37,9 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 			git -C ${VERSION_DIR}/${VERSION_REPOSITORY} tag | while read VERSION
 			do
 			    echo BUILDING RELEASE ${RELEASE} VERSION ${VERSION} &&
-				if [[ -f ${REPO_DIR}/hollowmoon/${NAME}-${VERSION}-${RELEASE}.x86-64.rpm ]]
+				if [[ -f ${REPO_DIR}/hollowmoon/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ]]
 				then
-				    echo WE HAVE ALREADY SUCCEED IN CREATING THIS RPM &&
+				    echo WE HAVE ALREADY SUCCEEDED IN CREATING THIS RPM &&
 					true
 				elif [[ -f ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure ]]
 				then
