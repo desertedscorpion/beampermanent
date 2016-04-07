@@ -55,9 +55,9 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 			done &&
 			    true
 		    done &&
-		    rm ${WORK_DIR}/${RELEASE_ORGANIZATION}-${RELEASE_REPOSITORY}-${VERSION_ORGANIZATION}-${VERSION_REPOSITORY}-${NAME}.lock
+		    rm ${HOME}/beampermanent.lock
 		    true
-	    ) 9> ${WORK_DIR}/${RELEASE_ORGANIZATION}-${RELEASE_REPOSITORY}-${VERSION_ORGANIZATION}-${VERSION_REPOSITORY}-${NAME}.lock &&
+	    ) 9> ${HOME}/beampermanent.lock
 	    true
     } &&
     build_it desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
