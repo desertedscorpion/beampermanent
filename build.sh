@@ -16,16 +16,19 @@ REPO_DIR=$(mktemp -d) &&
 	    do
 		git -C ${VERSION_DIR}/${VERSION_REPOSITORY} tag | while read VERSION
 		do
-		    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} checkout tags/${RELEASE} &&
-			(
+		    if [ ! -f ${REPO_DIR}/hollowmoon/${NAME}-${VERSION}-${RELEASE}.x86-64.rpm ]
+		    then
+			git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} checkout tags/${RELEASE} &&
 			    (
-				make --directory ${RELEASE_DIR}/${RELEASE_REPOSITORY} rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm VERSION=${VERSION} &&
-				    cp ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ${REPO_DIR}/hollowmoon &&
-				    git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
-				    true
-			    ) || true
-			) &&
-			true
+				(
+				    make --directory ${RELEASE_DIR}/${RELEASE_REPOSITORY} rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm VERSION=${VERSION} &&
+					cp ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ${REPO_DIR}/hollowmoon &&
+					git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
+					true
+				) || true
+			    ) &&
+			    true
+		    fi
 		done &&
 		    true
 	    done &&
@@ -33,6 +36,8 @@ REPO_DIR=$(mktemp -d) &&
     } &&
     build_it desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
     build_it desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
+    build_it desertedscorpion lonelocomotive desertedscorpion scatteredfinger bigdrill &&
+    build_it desertedscorpion timelessvegetable desertedscorpion helplessmountain shinyalarm &&
     cd ${REPO_DIR}/hollowmoon &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
     git -C ${REPO_DIR}/hollowmoon add repodata &&
