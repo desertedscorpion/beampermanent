@@ -54,7 +54,7 @@ REPO_DIR=build/repo &&
     } &&
     build_it desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
     build_it desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
-    build_it desertedscorpion lonelocomotive desertedscorpion scatteredfinger bigdrill &&
+    build_it desertedscorpion lostlocomotive desertedscorpion scatteredfinger bigdrill &&
     build_it desertedscorpion timelessvegetable desertedscorpion helplessmountain shinyalarm &&
     cd ${REPO_DIR}/hollowmoon &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
