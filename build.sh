@@ -2,7 +2,11 @@
 
 REPO_DIR=build/repo &&
     mkdir --parents ${REPO_DIR} &&
-    git -C ${REPO_DIR} clone git@github.com:desertedscorpion/hollowmoon &&
+    if [[ ! -d ${REPO_DIR}/hollowmoon ]]
+    then
+	git -C ${REPO_DIR} clone git@github.com:desertedscorpion/hollowmoon &&
+	    true
+    fi &&
     function build_it(){
 	RELEASE_ORGANIZATION=${1} &&
 	    RELEASE_REPOSITORY=${2} &&
@@ -13,8 +17,16 @@ REPO_DIR=build/repo &&
 	    mkdir --parents ${RELEASE_DIR} &&
 	    VERSION_DIR=build/version &&
 	    mkdir --parents ${VERSION_DIR} &&
-	    git -C ${RELEASE_DIR} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
-	    git -C ${VERSION_DIR} clone git@github.com:${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}.git &&
+	    if [[ ! -d ${RELEASE_DIR}/${RELEASE_REPOSITORY} ]]
+	    then
+		git -C ${RELEASE_DIR} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
+		    true
+	    fi &&
+	    if [[ ! -d ${VERSION_DIR}/${VERSION_REPOSITORY} ]]
+	    then
+		git -C ${VERSION_DIR} clone git@github.com:${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}.git &&
+		    true
+	    fi &&
 	    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} tag | while read RELEASE
 	    do
 		git -C ${VERSION_DIR}/${VERSION_REPOSITORY} tag | while read VERSION
