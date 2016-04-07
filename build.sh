@@ -41,8 +41,9 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 				    echo WE HAVE ALREADY SUCCEED IN CREATING THIS RPM &&
 					true
 				elif [[ -f ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure ]]
-				     echo WE HAVE ALREADY FAILED IN CREATING THIS RPM &&
-					 true
+				then
+				    echo WE HAVE ALREADY FAILED IN CREATING THIS RPM &&
+					true
 				else
 				    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} checkout tags/${RELEASE} &&
 					(
