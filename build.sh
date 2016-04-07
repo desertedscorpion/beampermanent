@@ -27,11 +27,13 @@ WORK_DIR=$(readlink -f $(dirname ${0})) &&
 			git -C ${RELEASE_DIR} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
 			    true
 		    fi &&
+		    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} pull &&
 		    if [[ ! -d ${VERSION_DIR}/${VERSION_REPOSITORY} ]]
 		    then
 			git -C ${VERSION_DIR} clone git@github.com:${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}.git &&
 			    true
 		    fi &&
+		    git -C ${VERSION_DIR}/${VERSION_REPOSITORY} pull &&
 		    git -C ${RELEASE_DIR}/${RELEASE_REPOSITORY} tag | while read RELEASE
 		    do
 			git -C ${VERSION_DIR}/${VERSION_REPOSITORY} tag | while read VERSION
