@@ -105,9 +105,9 @@ mkdir --parents build/{release,repo} &&
 		mkdir --parents build/version/${VERSION_ORGANIZATION} &&
 		    true
 	    fi &&
-	    if [[ ! -d build/version/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY} ]]
+	    if [[ ! -d build/version/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} ]]
 	    then
-		git -C build/version/${RELEASE_ORGANIZATION} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
+		git -C build/version/${VERSION_ORGANIZATION} clone git@github.com:${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}.git &&
 		    true
 	    fi &&
 	    git -C build/version/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} pull --tags origin master &&
