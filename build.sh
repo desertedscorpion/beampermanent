@@ -105,13 +105,13 @@ mkdir --parents build/{release,repo} &&
 		mkdir --parents build/version/${VERSION_ORGANIZATION} &&
 		    true
 	    fi &&
-	    if [[ ! -d build/release/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY} ]]
+	    if [[ ! -d build/version/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY} ]]
 	    then
-		git -C build/release/${RELEASE_ORGANIZATION} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
+		git -C build/version/${RELEASE_ORGANIZATION} clone git@github.com:${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}.git &&
 		    true
 	    fi &&
-	    git -C build/release/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} pull --tags origin master &&
-	    git -C build/release/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} tag | while read VERSION
+	    git -C build/version/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} pull --tags origin master &&
+	    git -C build/version/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY} tag | while read VERSION
 	    do
 		version ${RELEASE_ORGANIZATION} ${RELEASE_REPOSITORY} ${VERSION_ORGANIZATION} ${VERSION_REPOSITORY} ${NAME} ${RELEASE} ${VERSION} &&
 		    true
