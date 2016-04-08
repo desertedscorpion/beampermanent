@@ -89,7 +89,7 @@ mkdir --parents build/{release,repo} &&
 	    fi &&
 	    (
 		artifacts ${RELEASE_ORGANIZATION} ${RELEASE_REPOSITORY} ${VERSION_ORGANIZATION} ${VERSION_REPOSITORY} ${NAME} ${RELEASE} ${VERSION} ||
-		    
+		    touch build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/failure
 	    ) &&
 	    true
     } &&
