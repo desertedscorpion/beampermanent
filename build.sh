@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir --parents build/{release,repo} &&
+    REBUILD=false &&
     if [[ ! -d build ]]
     then
 	mkdir build &&
@@ -28,10 +29,12 @@ mkdir --parents build/{release,repo} &&
 	    if [[ -f build/repo/hollowmoon/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm ]]
 	    then
 		echo WE HAVE ALREADY SUCCEEDED IN BUILDING RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} NAME=${NAME} RELEASE=${RELEASE} VERSION=${VERSION} &&
+		    touch build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/oldsuccess &&
 		    true
 	    elif [[ -f build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/failure ]]
 	    then
 		echo WE HAVE ALREADY FAILED IN BUILDING RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} NAME=${NAME} RELEASE=${RELEASE} VERSION=${VERSION} &&
+		    touch build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/oldfailure &&
 		    true
 	    else
 		echo LET US BUILD RELEASE_ORGANIZATION=${RELEASE_ORGANIZATION} RELEASE_REPOSITORY=${RELEASE_REPOSITORY} VERSION_ORGANIZATION=${VERSION_ORGANIZATION} VERSION_REPOSITORY=${VERSION_REPOSITORY} NAME=${NAME} RELEASE=${RELEASE} VERSION=${VERSION} &&
@@ -44,6 +47,8 @@ mkdir --parents build/{release,repo} &&
 		    mock --rebuild build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/buildsrpm/${NAME}-${VERSION}-${RELEASE}.src.rpm --resultdir build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/rebuild --quiet &&
 		    cp build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm build/repo/hollowmoon &&
 		    git -C build/repo/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
+		    touch build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/success &&
+		    REBUILD=true &&
 		    true
 	    fi &&
 	    true
@@ -163,10 +168,14 @@ mkdir --parents build/{release,repo} &&
 	    rm ~/beampermanent.lock &&
 	    true
     ) 9> ~/beampermanent.lock &&
-    createrepo --pretty build/repo/hollowmoon &&
-    git -C build/repo/hollowmoon add repodata &&
-    git -C build/repo/hollowmoon commit -am "beampermanent" &&
-    git -C build/repo/hollowmoon push origin master &&
+    if [[ ${REBUILD} ]]
+    then
+	createrepo --pretty build/repo/hollowmoon &&
+	    git -C build/repo/hollowmoon add repodata &&
+	    git -C build/repo/hollowmoon commit -am "beampermanent" &&
+	    git -C build/repo/hollowmoon push origin master &&
+	    true
+    fi &&
     true
 
 
