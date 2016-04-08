@@ -45,6 +45,8 @@ mkdir --parents build/{release,repo} &&
 		    cp build/artifacts/${RELEASE_ORGANIZATION}/${RELEASE_REPOSITORY}/${RELEASE}/${VERSION_ORGANIZATION}/${VERSION_REPOSITORY}/${VERSION}/rebuild/${NAME}-${VERSION}-${RELEASE}.x86_64.rpm build/repo/hollowmoon &&
 		    git -C build/repo/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
 		    true
+	    fi &&
+	    true
     } &&
     function version(){
 	RELEASE_ORGANIZATION=${1} &&
