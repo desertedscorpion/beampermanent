@@ -161,10 +161,10 @@ mkdir --parents build/{release,repo} &&
     } &&
     (
 	flock --exclusive 9
-	releases desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
+	releases desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
+	    releases desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
 	    releases desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
 	    releases desertedscorpion bigdrill desertedscorpion lostlocomotive jenkins-client-service &&
-	    releases desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
 	    rm ~/beampermanent.lock &&
 	    true
     ) 9> ~/beampermanent.lock &&
