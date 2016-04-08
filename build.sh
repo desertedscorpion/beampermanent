@@ -152,10 +152,15 @@ mkdir --parents build/{release,repo} &&
 	    done &&
 	    true
     } &&
-    releases desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
-    releases desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
-    releases desertedscorpion bigdrill desertedscorpion lostlocomotive jenkins-client-service &&
-    releases desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
+    (
+	flock --exclusive 9
+	releases desertedscorpion navyavenue desertedscorpion alienmetaphor luckygamma &&
+	    releases desertedscorpion silverfoot desertedscorpion scatteredfinger jenkins-client &&
+	    releases desertedscorpion bigdrill desertedscorpion lostlocomotive jenkins-client-service &&
+	    releases desertedscorpion timelyvegetable desertedscorpion helplessmountain shinyalarm &&
+	    rm ~/beampermanent.lock &&
+	    true
+    ) 9> ~/beampermanent.lock &&
     createrepo --pretty ${REPO_DIR}/hollowmoon &&
     git -C ${REPO_DIR}/hollowmoon add repodata &&
     git -C ${REPO_DIR}/hollowmoon commit -am "beampermanent" &&
