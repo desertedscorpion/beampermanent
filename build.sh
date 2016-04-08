@@ -56,7 +56,8 @@ WORK_DIR=$(dirname ${0}) &&
 						    git -C ${REPO_DIR}/hollowmoon add ${NAME}-${VERSION}-${RELEASE}.x86_64.rpm &&
 						    true
 					    ) || (
-						touch ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure &&
+						mkdir ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure &&
+						    cp ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.spec ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}.tar.gz ${RELEASE_DIR}/${RELEASE_REPOSITORY}/buildsrpm ${RELEASE_DIR}/${RELEASE_REPOSITORY}/rebuild ${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure${RELEASE_DIR}/${RELEASE_REPOSITORY}/${NAME}-${VERSION}-${RELEASE}.failure &&
 						    true
 					    )
 					) &&
