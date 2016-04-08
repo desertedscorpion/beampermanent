@@ -13,7 +13,7 @@ mkdir --parents build/{release,repo} &&
     fi &&
     if [[ ! -d build/repo/hollowmoon ]]
     then
-	git -C build/repo git@github.com:desertedscorpion/hollowmoon.git &&
+	git -C build/repo clone git@github.com:desertedscorpion/hollowmoon.git &&
 	    true
     fi &&
     git -C build/repo/hollowmoon pull --tags origin master &&
